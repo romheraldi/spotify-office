@@ -36,9 +36,14 @@ const config: Config = {
                     from: { opacity: '0', transform: 'translateY(12px)' },
                     to: { opacity: '1', transform: 'translateY(0)' },
                 },
+                'backdrop-in': {
+                    from: { opacity: '0' },
+                    to: { opacity: '1' },
+                },
             },
             animation: {
                 'fade-up': 'fade-up .35s ease-out both',
+                'backdrop-in': 'backdrop-in 1.2s ease-out both',
             },
         },
     },

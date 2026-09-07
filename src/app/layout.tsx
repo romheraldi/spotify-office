@@ -20,7 +20,7 @@ export const revalidate = 0
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="id">
-            <body className={`${poppins.className} min-h-screen bg-surface text-ink`}>
+            <body className={`${poppins.className} min-h-screen text-ink`}>
                 {children}
 
                 {!!GOOGLE_TAG_ID && (
