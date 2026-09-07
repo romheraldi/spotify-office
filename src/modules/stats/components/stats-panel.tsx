@@ -79,9 +79,11 @@ export default function StatsPanel({ open, onClose, data }: StatsPanelProps) {
                     </button>
                 </div>
 
-                <Section title="Genre teratas">
-                    <GenreChart genres={data.genres} />
-                </Section>
+                {data.genres.length > 0 && (
+                    <Section title="Genre teratas">
+                        <GenreChart genres={data.genres} />
+                    </Section>
+                )}
 
                 <Section title="Artis teratas">
                     <ul className="grid grid-cols-3 gap-3">

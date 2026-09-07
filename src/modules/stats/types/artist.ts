@@ -3,7 +3,7 @@ import { ExternalUrls, Followers, Image } from '.'
 export interface SpotifyArtist {
     external_urls: ExternalUrls
     followers: Followers
-    genres: string[]
+    genres?: string[]
     href: string
     id: string
     images: Image[]

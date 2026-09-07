@@ -5,7 +5,7 @@ export function topGenres(artists: SpotifyArtist[]): SpotifyGenre[] {
     const genreMap: Record<string, SpotifyGenre> = {}
 
     artists.forEach(artist => {
-        artist.genres.forEach(genre => {
+        ;(artist.genres || []).forEach(genre => {
             if (!genreMap[genre]) {
                 genreMap[genre] = { name: genre, total: 1, percentage: 0 }
             } else {

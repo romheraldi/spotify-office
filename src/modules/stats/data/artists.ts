@@ -12,8 +12,9 @@ export async function topArtists(): Promise<SpotifyArtist[]> {
 
     const artists = res.data?.items || []
 
+    // Spotify tidak selalu menyertakan daftar genre pada objek artis.
     artists.forEach(artist => {
-        artist.genres = artist.genres.splice(0, 5)
+        artist.genres = (artist.genres || []).slice(0, 5)
     })
 
     return artists
