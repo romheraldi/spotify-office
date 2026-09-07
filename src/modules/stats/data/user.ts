@@ -1,9 +1,10 @@
-import { SPOTIFY_USER_ID } from '@/config'
-import { SpotifyUser } from '../types/user'
 import spotify from '@/lib/spotify'
+import { SpotifyUser } from '../types/user'
 
+// Memakai /me, bukan /users/{id}: aplikasi berjalan sebagai akun pemiliknya
+// sendiri, dan endpoint profil publik dibalas 403 untuk aplikasi ini.
 export async function currentUser(): Promise<SpotifyUser> {
-    const spotifyId = SPOTIFY_USER_ID
-    const res = await spotify.get(`/users/${spotifyId}`)
+    const res = await spotify.get<SpotifyUser>('/me')
+
     return res.data
 }

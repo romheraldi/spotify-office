@@ -21,7 +21,7 @@ Salin `.env.copy` menjadi `.env.local`, lalu isi:
 | `SPOTIFY_CLIENT_SECRET` | Client secret aplikasi Spotify |
 | `SPOTIFY_REFRESH_TOKEN` | Refresh token akun kantor |
 | `SPOTIFY_REDIRECT_URI` | Redirect URI, arahkan ke `<domain>/credential` |
-| `SPOTIFY_USER_ID` | ID pengguna Spotify pemilik akun |
+| `SPOTIFY_USER_ID` | ID pengguna Spotify pemilik akun, dipakai menyaring playlist milik sendiri |
 | `CONTROL_PIN` | PIN untuk membuka kontrol pemutaran |
 | `SESSION_SECRET` | Kunci penanda tangan cookie sesi kontrol |
 | `GOOGLE_TAG_ID` | Opsional, ID Google Analytics |

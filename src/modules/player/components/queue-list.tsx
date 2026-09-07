@@ -39,6 +39,11 @@ export default function QueueList() {
 
     const year = releaseYear(track.album.release_date)
 
+    // Spotify tidak selalu menyertakan popularity pada objek pemutaran,
+    // jadi blok penilaian hanya ditampilkan bila angkanya benar-benar ada.
+    const popularity =
+        typeof track.popularity === 'number' && Number.isFinite(track.popularity) ? track.popularity : null
+
     return (
         <div className="flex h-full flex-col">
             <div className="flex items-start justify-between gap-4">
@@ -51,15 +56,17 @@ export default function QueueList() {
                     </p>
                 </div>
 
-                <div className="shrink-0 text-right">
-                    <p className="text-2xl font-semibold tabular-nums">
-                        {(track.popularity / 20).toFixed(1)}
-                        <span className="text-base font-normal text-ink-soft">/5</span>
-                    </p>
-                    <div className="mt-1.5 flex justify-end">
-                        <PopularityDots value={track.popularity} />
+                {popularity !== null && (
+                    <div className="shrink-0 text-right">
+                        <p className="text-2xl font-semibold tabular-nums">
+                            {(popularity / 20).toFixed(1)}
+                            <span className="text-base font-normal text-ink-soft">/5</span>
+                        </p>
+                        <div className="mt-1.5 flex justify-end">
+                            <PopularityDots value={popularity} />
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             <ol className="no-scrollbar mt-6 max-h-[22rem] flex-1 space-y-1 overflow-y-auto pr-1">
