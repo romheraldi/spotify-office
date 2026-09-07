@@ -1,11 +1,5 @@
 /** @type {Record<string,string>} */
-const env = {
-    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
-    SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
-    SPOTIFY_REFRESH_TOKEN: process.env.SPOTIFY_REFRESH_TOKEN,
-    SPOTIFY_REDIRECT_URI: process.env.SPOTIFY_REDIRECT_URI,
-    SPOTIFY_USER_ID: process.env.SPOTIFY_USER_ID,
-}
+const env = {}
 
 if (process.env.HOTJAR_SITE_ID) {
     env.HOTJAR_SITE_ID = process.env.HOTJAR_SITE_ID
@@ -17,19 +11,12 @@ if (process.env.GOOGLE_TAG_ID) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Kredensial Spotify sengaja tidak diteruskan ke blok env agar tidak
+    // ikut ter-inline ke bundle sisi klien.
     env,
-    reactStrictMode: false,
+    reactStrictMode: true,
     images: {
         remotePatterns: [{ hostname: '*.scdn.co' }, { hostname: '*.spotifycdn.com' }],
-    },
-    webpack(config) {
-        config.module.rules.push({
-            test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
-        })
-
-        return config
     },
 }
 

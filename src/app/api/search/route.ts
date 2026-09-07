@@ -1,26 +1,23 @@
-import { searchTrack } from '@/modules/players/data/search'
-import { responseJson } from '@/utils/response-json'
-import { AxiosError } from 'axios'
-import type { NextApiRequest } from 'next'
+import { failFromSpotify, ok } from '@/lib/api-response'
+import { requireControl } from '@/modules/auth/guard'
+import { searchTrack } from '@/modules/player/data/search'
+import { NextRequest } from 'next/server'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
+    const denied = requireControl()
+    if (denied) return denied
+
+    const search = req.nextUrl.searchParams.get('q')?.trim()
+
+    if (!search) {
+        return ok([])
+    }
+
     try {
-        const search = new URL(req.url || '').searchParams.get('search')
-
-        if (!search) {
-            return responseJson([])
-        }
-
-        const data = await searchTrack(search || '')
-
-        return responseJson(data)
+        return ok(await searchTrack(search))
     } catch (error) {
-        const data = error instanceof AxiosError ? error.response?.data : undefined
-        const message = error instanceof AxiosError ? error.message : error
-        const statusCode = error instanceof AxiosError ? error.response?.status || 500 : 500
-
-        return responseJson({ message, statusCode, data }, statusCode)
+        return failFromSpotify(error)
     }
 }

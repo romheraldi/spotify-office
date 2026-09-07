@@ -1,20 +1,12 @@
-import { getPlayerData } from '@/modules/players/data'
-import { responseJson } from '@/utils/response-json'
-import { AxiosError } from 'axios'
-import type { NextApiRequest } from 'next'
+import { failFromSpotify, ok } from '@/lib/api-response'
+import { getPlayerSnapshot } from '@/modules/player/data/player'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
-export async function GET(_req: NextApiRequest) {
+export async function GET() {
     try {
-        const data = await getPlayerData()
-
-        return responseJson(data)
+        return ok(await getPlayerSnapshot())
     } catch (error) {
-        const data = error instanceof AxiosError ? error.response?.data : undefined
-        const message = error instanceof AxiosError ? error.message : error
-        const statusCode = error instanceof AxiosError ? error.response?.status || 500 : 500
-
-        return responseJson({ message, statusCode, data }, statusCode)
+        return failFromSpotify(error)
     }
 }

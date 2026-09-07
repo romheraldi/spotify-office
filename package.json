@@ -1,42 +1,42 @@
 {
-  "name": "spotify-new",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write \"src/**/*.{tsx,ts,js,jsx}\"",
-    "format:check": "prettier --check \"src/**/*.{tsx,ts,js,jsx}\"",
-    "prepare": "husky || echo \"husky not installed\""
-  },
-  "dependencies": {
-    "@use-gesture/react": "^10.3.1",
-    "axios": "^1.6.8",
-    "dayjs": "^1.11.10",
-    "next": "14.1.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-minimal-pie-chart": "^8.4.0",
-    "react-slick": "^0.30.2",
-    "react-spring": "^9.7.3",
-    "sharp": "^0.33.3",
-    "slick-carousel": "^1.8.1"
-  },
-  "devDependencies": {
-    "@svgr/webpack": "^8.1.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@types/react-slick": "^0.23.13",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.4",
-    "husky": "^9.0.11",
-    "postcss": "^8",
-    "prettier": "^3.2.5",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5"
-  }
+    "name": "spotify-new",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "format": "prettier --write \"src/**/*.{tsx,ts,js,jsx}\"",
+        "format:check": "prettier --check \"src/**/*.{tsx,ts,js,jsx}\"",
+        "prepare": "husky || echo \"husky not installed\"",
+        "test": "vitest run",
+        "test:watch": "vitest"
+    },
+    "dependencies": {
+        "axios": "^1.6.8",
+        "dayjs": "^1.11.10",
+        "next": "14.1.4",
+        "react": "^18",
+        "react-dom": "^18",
+        "react-minimal-pie-chart": "^8.4.0",
+        "sharp": "^0.33.3"
+    },
+    "devDependencies": {
+        "@testing-library/react": "^16.3.3",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "@vitejs/plugin-react": "^4.7.0",
+        "autoprefixer": "^10.0.1",
+        "eslint": "^8",
+        "eslint-config-next": "14.1.4",
+        "husky": "^9.0.11",
+        "jsdom": "^25.0.1",
+        "postcss": "^8",
+        "prettier": "^3.2.5",
+        "tailwindcss": "^3.3.0",
+        "typescript": "^5",
+        "vitest": "^2.1.9"
+    }
 }

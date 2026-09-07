@@ -1,86 +1,61 @@
 import { APP_URL, SPOTIFY_USER_ID } from '@/config'
-import { spotifyData } from '@/modules/home/data'
-import HomePage from '@/modules/home/page'
+import { isUnlocked } from '@/modules/auth/guard'
+import PlayerScreen from '@/modules/player/components/player-screen'
+import { getPlayerSnapshot } from '@/modules/player/data/player'
+import { spotifyData } from '@/modules/stats/data'
 import { Metadata, ResolvingMetadata } from 'next'
-import Link from 'next/link'
 
-export async function generateMetadata(_: any, parent: ResolvingMetadata): Promise<Metadata> {
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(_: unknown, parent: ResolvingMetadata): Promise<Metadata> {
     const data = await spotifyData().catch(() => null)
     const previousImages = (await parent).openGraph?.images || []
 
     if (!data) {
-        return {
-            title: 'Spotify Statistics',
-            openGraph: {
-                images: previousImages,
-            },
-        }
+        return { title: 'Pemutar Spotify Kantor' }
     }
 
-    const title = `${data.user.display_name}'s Spotify Statistic`
-    const description = `Explore ${data.user.display_name} Spotify statistics, including top genres, artists, tracks, playlists, and currently playing track.`
-    const author = data.user.display_name
-    const images = [data.user.images[0]?.url, ...previousImages]
+    const title = `Pemutar Spotify ${data.user.display_name}`
+    const description = `Lihat lagu yang sedang diputar, antrian, dan statistik Spotify ${data.user.display_name}.`
+    const images = [data.user.images[0]?.url, ...previousImages].filter(Boolean)
 
     return {
         title,
-        openGraph: {
-            images,
-            type: 'website',
-            url: APP_URL,
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title,
-            creator: author,
-            description,
-            images,
-        },
-        icons: data.user.images[0]?.url,
         description,
-        keywords: [
-            `Spotify`,
-            `Spotify statistic`,
-            `music`,
-            `statistic`,
-            `statistics`,
-            `top genres`,
-            `top artists`,
-            `top tracks`,
-            `playlist`,
-            `currently playing track`,
-            `${data.user.display_name} spotify`,
-            `${data.user.display_name} spotify statistic`,
-            `${data.user.display_name}`,
-        ],
-        authors: { name: author },
+        openGraph: { title, description, images, type: 'website', url: APP_URL },
+        twitter: { card: 'summary_large_image', title, description, images },
+        icons: data.user.images[0]?.url,
     }
 }
 
-export const revalidate = 0
-
 export default async function Home() {
-    const data = await spotifyData().catch(() => null)
+    const [snapshot, stats] = await Promise.all([
+        getPlayerSnapshot().catch(() => ({ state: null, queue: [], devices: [] })),
+        spotifyData().catch(() => null),
+    ])
 
-    if (!data) {
+    if (!stats && !snapshot.state) {
         const spotifyLink = `https://open.spotify.com/user/${SPOTIFY_USER_ID}`
+
         return (
-            <main className="h-screen w-screen max-w-full bg-img flex justify-center items-center">
-                <Link
-                    href={spotifyLink}
-                    className="text-green-600 font-gotham text-6xl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Spotify
-                </Link>
+            <main className="flex min-h-screen items-center justify-center px-6 text-center">
+                <div className="glass rounded-panel px-8 py-10 shadow-glass">
+                    <h1 className="text-2xl font-semibold">Data Spotify belum bisa diambil</h1>
+                    <p className="mt-2 max-w-sm text-sm text-ink-muted">
+                        Periksa kembali kredensial Spotify di server, lalu muat ulang halaman ini.
+                    </p>
+                    <a
+                        href={spotifyLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-6 inline-block rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white"
+                    >
+                        Buka profil Spotify
+                    </a>
+                </div>
             </main>
         )
     }
 
-    return (
-        <>
-            <HomePage data={data} />
-        </>
-    )
+    return <PlayerScreen snapshot={snapshot} unlocked={isUnlocked()} stats={stats} />
 }

@@ -3,17 +3,60 @@
 @tailwind utilities;
 
 :root {
-    @apply h-screen w-screen overflow-hidden relative bg-green-600;
+    --bg: #eff1f5;
+    --panel: rgba(255, 255, 255, 0.68);
+    --panel-strong: rgba(255, 255, 255, 0.86);
+    --panel-border: rgba(255, 255, 255, 0.7);
+    --ink: #17171c;
+    --ink-muted: #6b6c76;
+    --ink-soft: #9a9ba6;
+    --accent: #0fb39e;
 }
 
-#app_wrapper {
-    @apply relative z-10 h-screen w-screen overflow-y-auto overflow-x-hidden bg-black bg-opacity-40;
-    z-index: 2;
-    position: relative;
+html,
+body {
+    min-height: 100%;
+    background-color: var(--bg);
+    color: var(--ink);
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+    .glass {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+    }
+
+    .glass-strong {
+        background: var(--panel-strong);
+        border: 1px solid var(--panel-border);
+        backdrop-filter: blur(32px);
+        -webkit-backdrop-filter: blur(32px);
+    }
 }
 
 @layer utilities {
     .text-balance {
         text-wrap: balance;
     }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+/* Cincin fokus yang konsisten dan terlihat di atas panel terang. */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }

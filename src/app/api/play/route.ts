@@ -1,8 +1,12 @@
-import { userPlaylists } from '@/modules/home/data/playlists'
-import { playTrack } from '@/modules/players/data/play-track'
+import { playContextWithDefaults } from '@/modules/player/data/control'
+import { userPlaylists } from '@/modules/stats/data/playlists'
 import { responseJson } from '@/utils/response-json'
 import { NextApiRequest } from 'next'
 
+export const dynamic = 'force-dynamic'
+
+// Route lama yang dipakai oleh shortcut harian. Bentuk permintaan dan
+// responsnya sengaja dipertahankan apa adanya.
 export async function GET(req: NextApiRequest) {
     try {
         const uri = new URL(req.url || 'http://localhost')
@@ -16,7 +20,7 @@ export async function GET(req: NextApiRequest) {
             contextUri = playlists[randomIndex].uri
         }
 
-        await playTrack(deviceId, contextUri)
+        await playContextWithDefaults(deviceId, contextUri)
 
         return responseJson({ message: 'Success Play Track' })
     } catch (error: any) {

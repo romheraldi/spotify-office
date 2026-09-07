@@ -1,5 +1,5 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } from '@/config'
-import { SpotifyToken } from '@/modules/axios/token'
+import { SpotifyToken } from '@/lib/spotify-token'
 import { responseJson } from '@/utils/response-json'
 import axios, { AxiosError } from 'axios'
 
