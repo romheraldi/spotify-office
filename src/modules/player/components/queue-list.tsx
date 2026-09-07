@@ -48,8 +48,10 @@ export default function QueueList() {
         <div className="flex h-full flex-col">
             <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                    <h1 className="truncate text-3xl font-semibold tracking-tight md:text-4xl">{track.name}</h1>
-                    <p className="mt-1.5 truncate text-sm text-ink-muted">
+                    <h1 className="truncate text-xl font-semibold tracking-tight sm:text-2xl md:text-4xl">
+                        {track.name}
+                    </h1>
+                    <p className="mt-1.5 truncate text-xs text-ink-muted sm:text-sm">
                         {[formatArtists(track.artists), year, `${queue.length + 1} lagu di antrian`]
                             .filter(Boolean)
                             .join(' · ')}
@@ -58,7 +60,7 @@ export default function QueueList() {
 
                 {popularity !== null && (
                     <div className="shrink-0 text-right">
-                        <p className="text-2xl font-semibold tabular-nums">
+                        <p className="text-xl font-semibold tabular-nums sm:text-2xl">
                             {(popularity / 20).toFixed(1)}
                             <span className="text-base font-normal text-ink-soft">/5</span>
                         </p>
@@ -69,8 +71,8 @@ export default function QueueList() {
                 )}
             </div>
 
-            <ol className="no-scrollbar mt-6 max-h-[22rem] flex-1 space-y-1 overflow-y-auto pr-1">
-                <li className="flex items-center gap-3 rounded-[16px] bg-ink px-4 py-3 text-white shadow-pill">
+            <ol className="no-scrollbar mt-5 max-h-[24rem] flex-1 space-y-1 overflow-y-auto pr-1 md:mt-6 md:max-h-[22rem]">
+                <li className="flex items-center gap-3 rounded-[16px] bg-ink px-3 py-3 text-white shadow-pill sm:px-4">
                     <PlayIcon className="h-4 w-4 shrink-0" />
                     <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium">{track.name}</p>
@@ -84,7 +86,7 @@ export default function QueueList() {
                         <button
                             type="button"
                             onClick={() => control('play', { uri: item.uri, deviceId: state?.device?.id })}
-                            className="flex w-full items-center gap-3 rounded-[16px] px-4 py-2.5 text-left transition-colors hover:bg-white/70"
+                            className="flex w-full items-center gap-3 rounded-[16px] px-3 py-2.5 text-left transition-colors hover:bg-white/70 sm:px-4"
                         >
                             <span className="w-4 shrink-0 text-xs tabular-nums text-ink-soft">{index + 2}</span>
                             <img

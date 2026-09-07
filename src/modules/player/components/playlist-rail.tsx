@@ -24,6 +24,12 @@ export default function PlaylistRail({ playlists }: PlaylistRailProps) {
 
     if (playlists.length === 0) return null
 
+    // Dibagi rata ke kiri dan kanan, dan tiap sisi bisa digulir bila
+    // playlistnya lebih banyak daripada tinggi layar.
+    const half = Math.ceil(playlists.length / 2)
+    const left = playlists.slice(0, half)
+    const right = playlists.slice(half)
+
     const Card = ({ playlist, className = '' }: { playlist: SpotifyPlaylist; className?: string }) => (
         <button
             type="button"
@@ -48,20 +54,20 @@ export default function PlaylistRail({ playlists }: PlaylistRailProps) {
     return (
         <>
             <div className="pointer-events-none fixed inset-y-0 left-0 z-10 hidden items-center xl:flex">
-                <div className="pointer-events-auto flex flex-col gap-4 pl-2">
-                    {playlists.slice(0, 3).map(playlist => (
-                        <div key={playlist.id} className="-ml-16 transition-all duration-200 hover:ml-0">
-                            <Card playlist={playlist} className="h-28 w-32" />
+                <div className="no-scrollbar pointer-events-auto flex max-h-[88vh] flex-col gap-3 overflow-y-auto py-4 pl-2">
+                    {left.map(playlist => (
+                        <div key={playlist.id} className="-ml-14 transition-all duration-200 hover:ml-0">
+                            <Card playlist={playlist} className="h-24 w-28" />
                         </div>
                     ))}
                 </div>
             </div>
 
             <div className="pointer-events-none fixed inset-y-0 right-0 z-10 hidden items-center xl:flex">
-                <div className="pointer-events-auto flex flex-col gap-4 pr-2">
-                    {playlists.slice(3, 6).map(playlist => (
-                        <div key={playlist.id} className="-mr-16 transition-all duration-200 hover:mr-0">
-                            <Card playlist={playlist} className="h-28 w-32" />
+                <div className="no-scrollbar pointer-events-auto flex max-h-[88vh] flex-col gap-3 overflow-y-auto py-4 pr-2">
+                    {right.map(playlist => (
+                        <div key={playlist.id} className="-mr-14 transition-all duration-200 hover:mr-0">
+                            <Card playlist={playlist} className="h-24 w-28" />
                         </div>
                     ))}
                 </div>

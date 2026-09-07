@@ -10,7 +10,7 @@ export default function NowPlaying() {
 
     return (
         <div className="flex flex-col items-center gap-6">
-            <div className="relative w-full max-w-[280px]">
+            <div className="relative w-full max-w-[210px] sm:max-w-[280px]">
                 <div className="rounded-card bg-white p-3 shadow-card">
                     {track ? (
                         <img

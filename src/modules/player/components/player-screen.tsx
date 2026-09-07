@@ -72,8 +72,12 @@ function Screen({ stats }: { stats: SpotifyData | null }) {
                     )}
 
                     <div className="grid gap-8 px-4 py-6 md:grid-cols-[minmax(0,280px)_minmax(0,1fr)] md:px-8 md:py-8">
-                        <NowPlaying />
-                        <QueueList />
+                        <div className="min-w-0">
+                            <NowPlaying />
+                        </div>
+                        <div className="min-w-0">
+                            <QueueList />
+                        </div>
                     </div>
 
                     <BottomBar />

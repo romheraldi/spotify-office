@@ -19,10 +19,13 @@ export default function BottomBar() {
     })
 
     return (
-        <div className="flex flex-wrap items-center gap-4 border-t border-white/60 px-4 py-4 md:flex-nowrap md:px-6">
-            <DeviceMenu />
+        <div className="flex flex-col gap-3 border-t border-white/60 px-4 py-4 md:flex-row md:items-center md:gap-4 md:px-6">
+            <div className="flex items-center justify-between gap-3 md:contents">
+                <DeviceMenu />
+                <VolumeControl className="md:order-3" />
+            </div>
 
-            <div className="order-3 flex w-full flex-1 items-center gap-3 md:order-none md:w-auto">
+            <div className="flex flex-1 items-center gap-3 md:order-2">
                 <span className="w-10 shrink-0 text-xs tabular-nums text-ink-muted">{formatDuration(progress)}</span>
                 <Slider
                     label="Posisi lagu"
@@ -42,8 +45,6 @@ export default function BottomBar() {
                     {formatDuration(duration)}
                 </span>
             </div>
-
-            <VolumeControl />
         </div>
     )
 }

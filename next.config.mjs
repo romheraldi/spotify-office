@@ -11,6 +11,9 @@ if (process.env.GOOGLE_TAG_ID) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Memungkinkan build produksi dijalankan tanpa merusak folder kerja
+    // server pengembangan yang sedang menyala.
+    distDir: process.env.NEXT_BUILD_DIR || '.next',
     // Kredensial Spotify sengaja tidak diteruskan ke blok env agar tidak
     // ikut ter-inline ke bundle sisi klien.
     env,

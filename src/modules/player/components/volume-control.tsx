@@ -5,7 +5,7 @@ import { MuteIcon, VolumeIcon } from '@/components/ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { usePlayer } from '../player-context'
 
-export default function VolumeControl() {
+export default function VolumeControl({ className = '' }: { className?: string }) {
     const { snapshot, patch, control } = usePlayer()
     const device = snapshot.state?.device
     const volume = patch.volume ?? device?.volume_percent ?? 0
@@ -25,7 +25,7 @@ export default function VolumeControl() {
     }
 
     return (
-        <div className="flex items-center gap-2">
+        <div className={`flex items-center gap-2 ${className}`.trim()}>
             <IconButton
                 label={supported ? 'Atur volume' : 'Perangkat ini tidak mendukung pengaturan volume'}
                 size="sm"

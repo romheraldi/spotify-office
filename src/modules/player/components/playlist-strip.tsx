@@ -29,7 +29,7 @@ export default function PlaylistStrip({ playlists }: { playlists: SpotifyPlaylis
 
                             if (played) notify(`Memutar ${playlist.name}`, 'success')
                         }}
-                        className={`relative block h-24 w-24 shrink-0 overflow-hidden rounded-card shadow-card ${
+                        className={`relative block h-28 w-28 shrink-0 overflow-hidden rounded-card shadow-card ${
                             playlist.uri === activeContext ? 'ring-2 ring-accent' : ''
                         }`}
                     >
@@ -39,7 +39,7 @@ export default function PlaylistStrip({ playlists }: { playlists: SpotifyPlaylis
                             alt={playlist.name}
                             className="h-full w-full object-cover"
                         />
-                        <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-1.5 text-left text-[11px] font-medium leading-tight text-white">
+                        <span className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/75 to-transparent p-1.5 text-left text-[11px] font-medium leading-tight text-white">
                             {playlist.name}
                         </span>
                     </button>
