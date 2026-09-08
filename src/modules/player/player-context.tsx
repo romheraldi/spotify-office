@@ -44,7 +44,11 @@ interface PlayerContextValue {
 
 const PlayerContext = createContext<PlayerContextValue | null>(null)
 
-const POLL_INTERVAL_MS = 3000
+// Selang polling menyesuaikan keadaan: rapat saat lagu berjalan, jarang
+// saat berhenti, dan sangat jarang saat Spotify sedang membatasi.
+const POLL_PLAYING_MS = 5000
+const POLL_IDLE_MS = 15_000
+const POLL_LIMITED_MS = 60_000
 const REVALIDATE_DELAY_MS = 800
 
 export function usePlayer() {
@@ -96,28 +100,42 @@ export function PlayerProvider({ initialSnapshot, initialUnlocked, children }: P
         }
     }, [])
 
+    const snapshotRef = useRef(snapshot)
+    snapshotRef.current = snapshot
+
     // Polling berhenti saat tab tidak terlihat, lalu menyusul begitu
     // pengguna kembali ke tab ini.
     useEffect(() => {
-        let timer: ReturnType<typeof setInterval> | undefined
+        let timer: ReturnType<typeof setTimeout> | undefined
+        let stopped = false
 
-        const start = () => {
-            if (timer) return
-            timer = setInterval(refresh, POLL_INTERVAL_MS)
+        const nextDelay = () => {
+            const current = snapshotRef.current
+
+            if (current.stale) return Math.min(POLL_LIMITED_MS, Math.max(POLL_LIMITED_MS, current.retryAfterMs || 0))
+
+            return current.state?.is_playing ? POLL_PLAYING_MS : POLL_IDLE_MS
+        }
+
+        const tick = async () => {
+            if (stopped) return
+
+            await refresh()
+
+            if (stopped) return
+            timer = setTimeout(tick, nextDelay())
         }
 
         const stop = () => {
-            if (!timer) return
-            clearInterval(timer)
+            clearTimeout(timer)
             timer = undefined
         }
 
         const onVisibility = () => {
+            stop()
+
             if (document.visibilityState === 'visible') {
-                refresh()
-                start()
-            } else {
-                stop()
+                tick()
             }
         }
 
@@ -125,6 +143,7 @@ export function PlayerProvider({ initialSnapshot, initialUnlocked, children }: P
         document.addEventListener('visibilitychange', onVisibility)
 
         return () => {
+            stopped = true
             stop()
             document.removeEventListener('visibilitychange', onVisibility)
         }

@@ -2,6 +2,7 @@
 import { SpotifyData } from '@/modules/stats/types'
 import StatsPanel from '@/modules/stats/components/stats-panel'
 import GlassPanel from '@/components/ui/glass-panel'
+import { formatWait } from '@/lib/format'
 import { useEffect, useState } from 'react'
 import { PlayerProvider, usePlayer } from '../player-context'
 import { PlayerSnapshot } from '../data/player'
@@ -64,7 +65,14 @@ function Screen({ stats }: { stats: SpotifyData | null }) {
                         onOpenStats={() => setStatsOpen(true)}
                     />
 
-                    {!snapshot.state && (
+                    {snapshot.stale && (
+                        <p className="border-b border-white/60 bg-amber-100/50 px-6 py-3 text-sm text-amber-900">
+                            Spotify sedang membatasi permintaan aplikasi ini. Tampilan dibekukan pada data terakhir, dan
+                            kontrol belum bisa dipakai selama kurang lebih {formatWait(snapshot.retryAfterMs || 0)}.
+                        </p>
+                    )}
+
+                    {!snapshot.stale && !snapshot.state && (
                         <p className="border-b border-white/60 px-6 py-3 text-sm text-ink-muted">
                             Tidak ada perangkat yang aktif. Buka Spotify di salah satu perangkat, lalu pilih perangkat
                             di kiri bawah.

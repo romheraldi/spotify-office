@@ -13,3 +13,14 @@ export function formatArtists(artists?: { name: string }[]) {
 export function releaseYear(releaseDate?: string) {
     return releaseDate?.slice(0, 4) || ''
 }
+
+export function formatWait(ms: number) {
+    const minutes = Math.ceil(ms / 60_000)
+
+    if (minutes < 60) return `${minutes} menit`
+
+    const hours = Math.floor(minutes / 60)
+    const rest = minutes % 60
+
+    return rest ? `${hours} jam ${rest} menit` : `${hours} jam`
+}
